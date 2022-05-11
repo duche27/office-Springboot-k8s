@@ -27,6 +27,7 @@ kind: Service
 metadata:
   name: cloud-gateway-svc
 spec:
+# tipo distinto del resto por ser LoadBalancer - como servicio externo
   type: LoadBalancer
   ports:
     - port: 80
