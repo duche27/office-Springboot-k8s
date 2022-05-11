@@ -5,7 +5,8 @@ metadata:
 data:
   eureka_service_address: http://eureka-0.eureka:8761/eureka
 
----
+--- 
+# HEADLESS SERVER CONFIG
 
 apiVersion: v1
 kind: Service
@@ -22,6 +23,7 @@ spec:
     app: eureka
 
 ---
+# STATEFUL
 
 apiVersion: apps/v1
 kind: StatefulSet
@@ -44,6 +46,7 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8761
+          # variables de entorno para usar en la app, coge los valores de las variables que especifica (arriba)
           env:
             - name: EUREKA_SERVER_ADDRESS
               valueFrom:
@@ -52,7 +55,8 @@ spec:
                   key: eureka_service_address
 
 
----                  
+---
+# SERVICE
 
 apiVersion: v1
 kind: Service
