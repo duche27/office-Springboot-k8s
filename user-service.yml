@@ -8,28 +8,34 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app : user-service-app
+      app: user-service-app
   template:
     metadata:
       labels:
         app: user-service-app
     spec:
       containers:
-      - name: user-service-app
-        image: gfdezraboso/office-user-service:0.0.1
-        imagePullPolicy: Always
-        ports:
-          - containerPort: 9002
+        - name: user-service-app
+          image: gfdezraboso/office-user-service:0.0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9002
+          resources:
+            requests:
+              memory: "100Mi"
+            limits:
+              memory: "200Mi"
+          command: ["stress"]
+          args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
 
 ---
-
 kind: Service
 apiVersion: v1
 metadata:
-  name:  user-service-svc
+  name: user-service-svc
 spec:
   selector:
-    app:  user-service-app
+    app: user-service-app
   ports:
-  - port:  80
-    targetPort:  9002
+    - port: 80
+      targetPort: 9002

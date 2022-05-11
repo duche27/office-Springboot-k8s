@@ -5,7 +5,7 @@ metadata:
 data:
   eureka_service_address: http://eureka-0.eureka:8761/eureka
 
---- 
+---
 # HEADLESS SERVER CONFIG
 
 apiVersion: v1
@@ -46,6 +46,13 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8761
+          resources:
+            requests:
+              memory: "100Mi"
+            limits:
+              memory: "200Mi"
+          command: ["stress"]
+          args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
           # variables de entorno para usar en la app, coge los valores de las variables que especifica (arriba)
           env:
             - name: EUREKA_SERVER_ADDRESS
@@ -53,7 +60,6 @@ spec:
                 configMapKeyRef:
                   name: eureka-cm
                   key: eureka_service_address
-
 
 ---
 # SERVICE
